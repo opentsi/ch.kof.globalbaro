@@ -55,8 +55,7 @@ process_data <- function(key, ids = NULL) {
     suffix <- sub(".*\\.", "", k)
 
     # Create path to write file
-    output_path <- file.path(".", "data-raw", suffix, "series.csv")
-    print(output_path)
+    output_path <- file.path(".", "data-raw", "csv", paste0(suffix, ".csv"))
 
     # Write to CSV without row names
     write.csv(ts_df, file = output_path, row.names = FALSE)

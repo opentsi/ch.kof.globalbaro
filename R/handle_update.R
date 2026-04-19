@@ -3,7 +3,7 @@
 #' Orchestrates the update process: checks if update is needed,
 #' processes data, writes output, and stores the new checksum.
 #'
-#' @importFrom opentimeseries write_open_ts is_update_needed update_checksum
+#' @importFrom opentimeseries is_update_needed update_checksum
 #' @importFrom digest digest
 #' @export
 handle_update <- function() {
