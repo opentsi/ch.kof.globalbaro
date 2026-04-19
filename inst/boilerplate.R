@@ -29,8 +29,30 @@ head(vintages_dt)
 ## Example Step 3, Import History to Archive
 archive_import_history(vintages_dt, repository_path = ".")
 
+# write process data & handle_data
+# done 
+
+# write & validate metadata
+render_metadata()
+meta <- read_meta(".")
+validate_metadata(meta) # TRUE
+# done
+
+# seal archive
+checksum_input <- generate_checksum_input()
+archive_seal(checksum_input)
+
+# write automation
+devtools::load_all()
+library(kofdata)
+library(digest)
+handle_update()
 
 
+# check that package is ready
+library(devtools)
+check()
+install()
 
 
 

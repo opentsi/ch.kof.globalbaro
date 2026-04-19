@@ -1,0 +1,32 @@
+{
+  "country": "ch",
+  "provider": "kof",
+  "dataset": "globalbaro",
+  "title": {
+    "en": "KOF Global Barometer"
+  },
+  "source_name": {
+    "en": "KOF Swiss Economic Institute"
+  },
+  "source_url": "https://kof.ethz.ch/en/forecasts-and-indicators/indicators/kof-globalbaro.html",
+  "dataset_frequency": "M",
+  "units": {
+    "all": {
+      "en": ""
+    }
+  },
+  "aggregate": {
+    "all": "mean"
+  },
+  "dim_order": "idx_type",
+  "hierarchy": {
+    "idx_type": [
+      "coincident",
+      "leading"
+    ]
+  },
+  "labels": {
+    "dimnames": {}
+  },
+  "update_checksum": "a12dbe7a23a23a9636a408974065813d25b363d500dc5fcc76aba7fa7ba70eeb"
+}
