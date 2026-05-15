@@ -20,13 +20,10 @@
   },
   "dim_order": "idx_type",
   "hierarchy": {
-    "idx_type": [
-      "coincident",
-      "leading"
-    ]
+    "idx_type": ["coincident", "leading"]
   },
   "labels": {
     "dimnames": {}
   },
-  "update_checksum": "a12dbe7a23a23a9636a408974065813d25b363d500dc5fcc76aba7fa7ba70eeb"
+  "update_checksum": "a386f8efad014f5cac47a2a2c2eed550a86c5793855015a50daf50d1aabf4663"
 }
