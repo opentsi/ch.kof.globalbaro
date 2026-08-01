@@ -4,7 +4,10 @@
 \alias{handle_update}
 \title{Handle Data Update}
 \usage{
-handle_update()
+handle_update(key = key)
+}
+\arguments{
+\item{key}{API key for the KOF Time Series Database.}
 }
 \description{
 Orchestrates the update process: checks if update is needed,

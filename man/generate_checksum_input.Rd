@@ -4,7 +4,10 @@
 \alias{generate_checksum_input}
 \title{User Written Function to Create Input for Checksum Comparison}
 \usage{
-generate_checksum_input()
+generate_checksum_input(key = key)
+}
+\arguments{
+\item{key}{API key for the KOF Time Series Database.}
 }
 \description{
 This function generates input for computation of checksums to identify

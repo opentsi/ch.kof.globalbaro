@@ -55,6 +55,3 @@ process_data <- function(key, ids = NULL) {
 
   invisible(unlist(out_paths))
 }
-
-# process_data(key = Sys.getenv("KOF_API_KEY"), ids = c("coincident", "leading"))
-

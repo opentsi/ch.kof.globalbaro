@@ -38,11 +38,14 @@ jobs:
         run: |
           R -q -e 'install.packages("pak")'
           R -q -e 'pak::pkg_install("opentsi/opentimeseries")'
+          R -q -e 'pak::pkg_install("opentsi/tsdbapi-R")'
           R -q -e 'pak::pkg_install("${{ github.repository }}")'
 
       - name: handle_update
+        env:
+          TSDBAPI: ${{ secrets.TSDBAPI }}
         run: |
-          R -q -e '${{ github.event.repository.name }}::handle_update()'
+          R -q -e '${{ github.event.repository.name }}::handle_update(Sys.getenv("TSDBAPI"))'
       - name: Commit and push changes (if any)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
