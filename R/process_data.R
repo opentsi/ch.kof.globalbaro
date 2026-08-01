@@ -1,31 +1,21 @@
-#' Process KOF Vintage Data into Time Series List (tsl)
+#' Process KOF Global Barometer Data into Time Series List (tsl)
 #'
-#' Fetches vintage data from the kofdata R package, filters for the most recent vintage of specific
-#' indicators, and cleans the resulting names.
+#' Fetches the most recent vintage of specific indicators from the KOF Time
+#' Series Database and writes each to its key.csv
 #'
-#' @importFrom kofdata get_collection
-#' @param key A character string of the KOF set key to fetch.
+#' @importFrom tsdbapi read_ts set_config
+#' @param key API key for the KOF Time Series Database.
 #' @param ids A character vector of indicator IDs to extract (e.g., c("coincident", "leading")).
 #'
-#' @return A named list of ts objects (tsl) with cleaned names in the key.id format
+#' @return Invisibly returns a character vector of output file paths.
 #' @export
 process_data <- function(key, ids = NULL) {
-  # fetch initial tsl
-  tsl <- list()
+  tsdbapi::set_config(api_key = key)
 
-  for (i in ids){
-    tsk <- paste0(key,".", i)
-    # print(tsk)
-    ts <- kofdata::get_time_series(tsk)
-    name <- names(ts)
-    # print(names)
-    tsl[name] <- ts
-  }
+  ts_keys <- paste0("ch.kof.globalbaro.", ids)
+  tsl <- tsdbapi::read_ts(ts_keys)
 
-  # print(tsl)
-
-  # Write each time series to series.csv in the corresponding directory
-  lapply(names(tsl), function(k) {
+  out_paths <- lapply(names(tsl), function(k) {
     ts_obj <- tsl[[k]]
 
     # Convert ts object to data frame with time and value columns
@@ -42,28 +32,29 @@ process_data <- function(key, ids = NULL) {
       months <- round((ts_time - years) * 12) + 1
       ts_dates <- as.Date(sprintf("%d-%02d-01", years, months))
     } else {
-      stop("Unsupported frequency")
+      stop(sprintf("Unsupported frequency: %d", freq))
     }
-  
+
     # Create data frame in the format of the input file
     ts_df <- data.frame(
       time = as.Date(ts_dates),
       value = values
     )
 
-    # k is last suffix
-    suffix <- sub(".*\\.", "", k)
+    # remove prefix so it matches with current data
+    suffix <- sub("^ch\\.kof\\.globalbaro\\.", "", k)
 
     # Create path to write file
     output_path <- file.path(".", "data-raw", "csv", paste0(suffix, ".csv"))
 
     # Write to CSV without row names
-    write.csv(ts_df, file = output_path, row.names = FALSE)
-    message(sprintf("latest vintage of %s: %s written to %s", key, k, output_path))
-
+    write.csv(ts_df, file = output_path, row.names = FALSE, quote = FALSE)
+    message(sprintf("Written: %s", output_path))
+    output_path
   })
-  
+
+  invisible(unlist(out_paths))
 }
 
-# process_data("ch.kof.globalbaro", ids = c("coincident", "leading"))
+# process_data(key = Sys.getenv("KOF_API_KEY"), ids = c("coincident", "leading"))
 
